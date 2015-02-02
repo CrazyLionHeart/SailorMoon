@@ -1,0 +1,101 @@
+{
+    "producer": {
+        "listen": "tcp://192.168.1.214:5557",
+        "ack": "tcp://192.168.1.214:5556"
+    },
+    "resulter": {
+        "listen": "tcp://192.168.1.214:5558"
+    },
+    "Raven": {
+        "public": "b56b8a38fa124a40a7054011ede9b628",
+        "private": "127cd51440ad401792c94d9345de4ef5",
+        "host": "sentry.bbp/7"
+    },
+    "domain": "obs-test.bbp",
+    "gunicorn": {
+        "hostname": "0.0.0.0",
+        "port": 9292,
+        "workers": 2,
+        "worker_class": "tornado",
+        "worker_connections": 2000,
+        "timeout": 30,
+        "keepalive": 2
+    },
+    "activemq": {
+        "stomp": {
+            "host": "192.168.1.214",
+            "initialReconnectDelay": 5000,
+            "maxReconnectAttempts": -1,
+            "maxReconnectDelay": 10000,
+            "port": 61612,
+            "randomize": "false",
+            "startupMaxReconnectAttempts": -1
+        },
+        "http": {
+            "host": "192.168.1.214",
+            "port": 8161,
+            "uri": "/api/message/"
+        },
+        "password": "admin",
+        "username": "admin"
+    },
+    "queue": {
+        "email_system": "email_system"
+    },
+    "loggingconfig": {
+        "disable_existing_loggers": "False",
+        "formatters": {
+            "simple": {
+                "datefmt": "%y %b %d, %H:%M:%S",
+                "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "simple",
+                "level": "DEBUG",
+                "stream": "ext://sys.stdout"
+            },
+            "sentry": {
+                "class": "raven.handlers.logging.SentryHandler",
+                "dsn": "http://b56b8a38fa124a40a7054011ede9b628:127cd51440ad401792c94d9345de4ef5@sentry.bbp/7",
+                "level": "DEBUG"
+            }
+        },
+        "loggers": {
+            "app": {
+                "handlers": [
+                    "console",
+                    "sentry"
+                ],
+                "level": "WARN",
+                "propagate": "False"
+            },
+            "": {
+                "level": "DEBUG",
+                "handlers": [
+                    "console",
+                    "sentry"
+                ],
+                "propagate": "False"
+            }
+        },
+        "version": 1
+    },
+    "obs": "192.168.1.214",
+    "delay": {
+        "mail.ru": {
+            "bucket": "Bunny",
+            "limit": 10.0
+        },
+        "gmail.com": {
+            "bucket": "Usagi",
+            "limit": 20.0
+        },
+        "babypages.ru": {
+            "bucket": "Mamoto",
+            "limit": 61.0
+        }
+    }
+}

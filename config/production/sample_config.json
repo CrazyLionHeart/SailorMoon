@@ -1,0 +1,61 @@
+{
+    "producer": {
+        "listen": "tcp://127.0.0.1:5557",
+        "ack": "tcp://127.0.0.1:5556"
+    },
+    "resulter": {
+        "listen": "tcp://127.0.0.1:5558"
+    },
+    "Raven": {
+        "public": "dd51df2d18874e98be8247fa1cd1695d",
+        "private": "2fecf4ae0910492fa02d0e2ff40a11f7",
+        "host": "sentry.bbp/3"
+    },
+    "domain": "obs.bbp",
+    "gunicorn": {
+        "hostname": "0.0.0.0",
+        "port": 9292,
+        "workers": 8,
+        "worker_class": "tornado",
+        "worker_connections": 2000,
+        "timeout": 30,
+        "keepalive": 2
+    },
+    "loggingconfig": {
+        "disable_existing_loggers": "False",
+        "formatters": {
+            "simple": {
+                "datefmt": "%y %b %d, %H:%M:%S",
+                "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "simple",
+                "level": "DEBUG",
+                "stream": "ext://sys.stdout"
+            },
+            "sentry": {
+                "class": "raven.handlers.logging.SentryHandler",
+                "dsn": "http://475ae49ccd5a4edc8df4ce80cb6135f2:1107ae1c79574e0790c3afe2cf58265f@sentry.bbp/2",
+                "level": "WARNING"
+            }
+        },
+        "loggers": {
+            "SailorMoon": {
+                "handlers": [
+                    "console",
+                    "sentry"
+                ],
+                "level": "WARNING",
+                "propagate": "False"
+            },
+        },
+        "root": {
+            "level": "DEBUG",
+            "handlers": ["console"]
+        },
+        "version": 1
+    }
+}

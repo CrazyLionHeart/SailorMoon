@@ -1,0 +1,137 @@
+{
+  "Raven": {
+    "public": "b56b8a38fa124a40a7054011ede9b628",
+    "private": "127cd51440ad401792c94d9345de4ef5",
+    "host": "sentry.bbp/7"
+  },
+  "domain": "obs-test.bbp",
+  "activemq": {
+    "stomp": {
+      "host": "192.168.1.214",
+      "initialReconnectDelay": 5000,
+      "maxReconnectAttempts": -1,
+      "maxReconnectDelay": 10000,
+      "port": 61612,
+      "randomize": "false",
+      "startupMaxReconnectAttempts": -1
+    },
+    "http": {
+      "host": "192.168.1.214",
+      "port": 8161,
+      "uri": "/api/message/"
+    },
+    "password": "admin",
+    "username": "admin"
+  },
+  "queue": {
+    "email_system": "email_system",
+    "BotNet": "ControlMessage"
+  },
+  "loggingconfig": {
+    "disable_existing_loggers": true,
+    "formatters": {
+      "simple": {
+        "datefmt": "%y %b %d, %H:%M:%S",
+        "format": "[%(asctime)s][%(levelname)s] %(name)s %(filename)s:%(funcName)s:%(lineno)d | %(message)s"
+      }
+    },
+    "handlers": {
+      "console": {
+        "class": "logging.StreamHandler",
+        "formatter": "simple",
+        "level": "DEBUG",
+        "stream": "ext://sys.stdout"
+      },
+      "sentry": {
+        "class": "raven.handlers.logging.SentryHandler",
+        "dsn": "http://b56b8a38fa124a40a7054011ede9b628:127cd51440ad401792c94d9345de4ef5@sentry.bbp/7",
+        "level": "WARNING"
+      }
+    },
+    "loggers": {
+      "": {
+        "handlers": [
+          "console",
+          "sentry"
+        ],
+        "level": "DEBUG",
+        "propagate": false
+      },
+      "SailorMoon": {
+        "level": "DEBUG",
+        "handlers": [
+          "console",
+          "sentry"
+        ],
+        "propagate": false
+      },
+      "celery": {
+        "level": "INFO",
+        "handlers": [
+          "sentry"
+        ],
+        "propagate": false
+      },
+      "RateLimiter": {
+        "level": "DEBUG",
+        "handlers": [
+          "console"
+        ],
+        "propagate": false
+      },
+      "SailorMoon.babypages.ru": {
+        "level": "DEBUG",
+        "handlers": [
+          "console"
+        ],
+        "propagate": false
+      },
+      "SailorMoon.gmail.com": {
+        "level": "DEBUG",
+        "formatter": "simple",
+        "handlers": [
+          "console"
+        ],
+        "propagate": false
+      }
+    },
+    "version": 1
+  },
+  "celery": {
+    "CELERY_ENABLE_UTC": true,
+    "CELERY_TIMEZONE": "Europe/Moscow",
+    "BROKER_URL": "redis://192.168.1.214:6379/1",
+    "CELERY_RESULT_BACKEND": "redis://192.168.1.214:6379/1",
+    "SERVER_EMAIL": "robot@babypages.ru",
+    "BROKER_TRANSPORT_OPTIONS": {
+      "visibility_timeout": 3600,
+      "fanout_prefix": true,
+      "fanout_patterns": true
+    },
+    "CELERY_ACCEPT_CONTENT": [
+      "pickle",
+      "json",
+      "msgpack",
+      "yaml"
+    ],
+    "CELERY_ACKS_LATE": true,
+    "CELERY_RESULT_PERSISTENT": true,
+    "CELERY_TASK_RESULT_EXPIRES": 300,
+    "CELERY_MESSAGE_COMPRESSION": "gzip",
+    "REDIS_DB": 1,
+    "REDIS_CONNECT_RETRY": true,
+    "CELERY_SEND_TASK_ERROR_EMAILS": true,
+    "CELERY_REDIRECT_STDOUTS": true,
+    "CELERYD_HIJACK_ROOT_LOGGER": false,
+    "CELERY_TRACK_STARTED": true,
+    "CELERY_SEND_EVENTS": true,
+    "CELERY_SEND_TASK_SENT_EVENT": true
+  },
+  "Redis": {
+    "host": "192.168.1.214",
+    "port": 6379,
+    "scheme": "tcp",
+    "db": 1,
+    "password": null
+  }
+}
